@@ -11,7 +11,7 @@ using System.Data.SqlClient;
 
 namespace nocode
 {
-    public partial class WebForm1 : System.Web.UI.Page
+    public partial class WebForm1 : Page
     {
         //This runs commands when page is loaded
         protected void Page_Load(object sender, EventArgs e)

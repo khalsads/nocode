@@ -22,14 +22,13 @@
     <%--https://www.c-sharpcorner.com/UploadFile/ansh06031982/step-by-step-bind-mysql-data-to-Asp-Net-gridview/--%>
 
     <%--    Using Grid View to Display data--%>
-    <asp:GridView ID="noCodePageList" runat="server" AutoGenerateColumns="false">
+    <asp:GridView ID="noCodePageList" runat="server" AutoGenerateColumns="false" CssClass="page_list">
         <Columns>
             <asp:BoundField DataField="page_header" HeaderText="Page Heading" />
             <asp:BoundField DataField="page_body" HeaderText="Page Body" />
             <asp:BoundField DataField="page_author" HeaderText="Page Author" />
             <asp:TemplateField>
                 <ItemTemplate>
-                 
                     <asp:LinkButton ID="linkselect" Text="DELETE" runat="server" CommandArgument='<%# Eval("pageid") %>' OnClick="Del_Data"></asp:LinkButton>
                 </ItemTemplate>
             </asp:TemplateField>
