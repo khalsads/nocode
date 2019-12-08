@@ -69,15 +69,6 @@ namespace nocode
         protected global::System.Web.UI.WebControls.TextBox page_body_input;
 
         /// <summary>
-        /// ListResult control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl ListResult;
-
-        /// <summary>
         /// error_msg control.
         /// </summary>
         /// <remarks>
@@ -85,5 +76,14 @@ namespace nocode
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl error_msg;
+
+        /// <summary>
+        /// noCodePageList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView noCodePageList;
     }
 }

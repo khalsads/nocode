@@ -15,21 +15,22 @@
             <asp:TextBox ID="page_body_input" runat="server" />
         </div>
         <asp:Button Text="ADD" runat="server" OnClick="Add_Submit" />
-        
     </div>
-    <table>
-        <thead>
-            <tr>
-                <th>##</th>
-                <th>Page Heading</th>
-                <th>Author Name</th>
-                <th>Page Body</th>
-            </tr>
-        </thead>
-        <tbody runat="server" id="ListResult"></tbody>
-    </table>
     <div runat="server" id="error_msg"></div>
 
+    <%--    Using Grid View to Display data--%>
+    <asp:GridView ID="noCodePageList" runat="server" AutoGenerateColumns="false">
+        <Columns>
+            <asp:BoundField DataField="page_header" HeaderText="Page Heading" />
+            <asp:BoundField DataField="page_body" HeaderText="Page Body" />
+            <asp:BoundField DataField="page_author" HeaderText="Page Author" />
+            <asp:TemplateField>
+                <ItemTemplate>
+                    <asp:LinkButton ID="linkselect" Text="DELETE" runat="server" OnClick="Del_Data"></asp:LinkButton>
+                </ItemTemplate>
+            </asp:TemplateField>
+        </Columns>
+    </asp:GridView>
 
     <asp:Button Text="UPDATE" runat="server" />
     <asp:Button Text="DELETE" runat="server" OnClick="Del_Data" />

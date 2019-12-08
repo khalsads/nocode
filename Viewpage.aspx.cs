@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Data;
+using System.Configuration;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using MySql.Data.MySqlClient;
+using System.Data.SqlClient;
 
 namespace nocode
 {
@@ -13,61 +16,7 @@ namespace nocode
         //This runs commands when page is loaded
         protected void Page_Load(object sender, EventArgs e)
         {
-            ListResult.InnerHtml = "";
-            string dbConnStr = System.Configuration.ConfigurationManager.ConnectionStrings["nocodedbConnStr"].ToString();
-            MySqlConnection dbConnection = new MySqlConnection(dbConnStr);
-            try
-            {
-                //Write Statement to console pannel when connecting to database
-                Console.WriteLine("Connecting to MySql...");
-
-                //Open Connection with database
-                dbConnection.Open();
-
-                //Database operations below
-                string dbQueryStr = "SELECT pageid, page_header, page_body, page_author FROM test_user_blog;";
-
-                MySqlCommand cmd = new MySqlCommand(dbQueryStr, dbConnection);
-
-                MySqlDataReader reader = cmd.ExecuteReader();
-
-                //error_msg.InnerHtml += "Working....";
-
-                if (reader.FieldCount == 0)
-                {
-                    error_msg.InnerHtml += "No Result Found";
-                }
-                else
-                {
-                    if (reader.HasRows)
-                    {
-                        int i = 1;
-                        while (reader.Read())
-                        {
-                            int pageid = Int32.Parse(reader[0].ToString());
-                            string page_header = reader[1].ToString();
-                            string page_author = reader[3].ToString();
-                            string page_body = reader[2].ToString();
-
-                            ListResult.InnerHtml += "<tr><th>" + i + "</th>";
-                            ListResult.InnerHtml += "<td>" + page_header + "</td>";
-                            ListResult.InnerHtml += "<td>" + page_author + "</td>";
-                            ListResult.InnerHtml += "<td>" + page_body + "</td>";
-                            ListResult.InnerHtml += "<td><button runat='server' id="+pageid+" onclick='Del_Data'>DELETE</button></td></tr>";
-                            i++;
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-
-            //Close connection with database
-            dbConnection.Close();
-            Console.WriteLine("Connection Closed...");
-
+            GridViewnoCode();
         }
 
         //This will add page to the database
@@ -75,6 +24,7 @@ namespace nocode
         {
             string dbConnStr = System.Configuration.ConfigurationManager.ConnectionStrings["nocodedbConnStr"].ToString();
             MySqlConnection dbConnection = new MySqlConnection(dbConnStr);
+
             try
             {
                 //Write Statement to console pannel when connecting to database
@@ -94,7 +44,7 @@ namespace nocode
             {
                 Console.WriteLine(ex.Message);
             }
-
+            GridViewnoCode();
             //Close connection with database
             dbConnection.Close();
             Console.WriteLine("Connection Closed...");
@@ -103,9 +53,8 @@ namespace nocode
         //This will del data by ID
         protected void Del_Data(object sender, EventArgs e)
         {
-            error_msg.InnerHtml += "DELETE FUNCTION CLICKED"+e.ToString();
-            //string dbConnStr = System.Configuration.ConfigurationManager.ConnectionStrings["nocodedbConnStr"].ToString();
-            //MySqlConnection dbConnection = new MySqlConnection(dbConnStr);
+            error_msg.InnerHtml += "DELETE FUNCTION CLICKED";
+
             //try
             //{
             //    //Write Statement to console pannel when connecting to database
@@ -129,6 +78,35 @@ namespace nocode
             ////Close connection with database
             //dbConnection.Close();
             //Console.WriteLine("Connection Closed...");
+        }
+        protected void GridViewnoCode()
+        {
+            string dbConnStr = ConfigurationManager.ConnectionStrings["nocodedbConnStr"].ConnectionString;
+            using (MySqlConnection dbConnection = new MySqlConnection(dbConnStr))
+            {
+                //Database operations below
+                string dbQueryStr = "SELECT pageid, page_header, page_body, page_author FROM test_user_blog;";
+                using (MySqlCommand cmd = new MySqlCommand(dbQueryStr))
+                {
+                    using (MySqlDataAdapter noCodeData = new MySqlDataAdapter())
+                    {
+                        cmd.Connection = dbConnection;
+                        noCodeData.SelectCommand = cmd;
+                        using (DataTable noCodeDataTable = new DataTable())
+                        {
+                            noCodeData.Fill(noCodeDataTable);
+
+                            noCodePageList.DataSource = noCodeDataTable;
+                            noCodePageList.DataBind();
+                        }
+                    }
+                }
+                //Close connection with database
+                dbConnection.Close();
+                Console.WriteLine("Connection Closed...");
+            }
+
+
         }
     }
 }
