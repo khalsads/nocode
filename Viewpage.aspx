@@ -18,6 +18,9 @@
     </div>
     <div runat="server" id="error_msg"></div>
 
+    <%-- Following website Ref to create grid view --%>
+    <%--https://www.c-sharpcorner.com/UploadFile/ansh06031982/step-by-step-bind-mysql-data-to-Asp-Net-gridview/--%>
+
     <%--    Using Grid View to Display data--%>
     <asp:GridView ID="noCodePageList" runat="server" AutoGenerateColumns="false">
         <Columns>
@@ -26,7 +29,8 @@
             <asp:BoundField DataField="page_author" HeaderText="Page Author" />
             <asp:TemplateField>
                 <ItemTemplate>
-                    <asp:LinkButton ID="linkselect" Text="DELETE" runat="server" OnClick="Del_Data"></asp:LinkButton>
+                 
+                    <asp:LinkButton ID="linkselect" Text="DELETE" runat="server" CommandArgument='<%# Eval("pageid") %>' OnClick="Del_Data"></asp:LinkButton>
                 </ItemTemplate>
             </asp:TemplateField>
         </Columns>
